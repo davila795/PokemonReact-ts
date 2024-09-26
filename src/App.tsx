@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import PokemonTable from "./components/PokemonTable";
-import PokemonCard from "./components/PokemonCard";
+import PokemonTable from "./components/PokemonTable/PokemonTable";
 
 import type { PokemonDetail } from "./types";
 
@@ -19,8 +18,6 @@ type Result = {
 
 function App() {
   const [pokemonData, setPokemonData] = useState<PokemonDetail[]>([]);
-  const [pokemon, setPokemon] = useState<PokemonDetail>();
-  const [show, setShow] = useState(false);
 
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
@@ -36,28 +33,12 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  const showPokemonDetails = useCallback((pokemon: PokemonDetail): void => {
-    setPokemon(pokemon);
-    handleShow();
-  }, []);
-  const handleShow = (): void => setShow(true);
-  const handleClose = (): void => setShow(false);
-
   return (
     <>
       <Container style={{ margin: "20px auto", maxWidth: "768px" }}>
         <h1 style={{ textAlign: "center" }}>Pokemons</h1>
-        {pokemonData && (
-          <PokemonTable
-            data={pokemonData}
-            showPokemonDetails={showPokemonDetails}
-          />
-        )}
+        {pokemonData && <PokemonTable data={pokemonData} />}
       </Container>
-
-      {pokemon && (
-        <PokemonCard pokemon={pokemon} handleClose={handleClose} show={show} />
-      )}
     </>
   );
 }

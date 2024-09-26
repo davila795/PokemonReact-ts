@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-
-import type { PokemonDetail } from "./types";
 import PokemonTable from "./components/PokemonTable";
 import PokemonCard from "./components/PokemonCard";
+
+import type { PokemonDetail } from "./types";
 
 type PokemonAPI = {
   count: number;
@@ -23,15 +23,11 @@ function App() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const options: RequestInit = {
-      method: "GET",
-    };
-
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=100", options)
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=100")
       .then((response) => response.json())
       .then((data: PokemonAPI) => {
         const fetches = data.results.map((result) =>
-          fetch(result.url, options).then((response) => response.json())
+          fetch(result.url).then((response) => response.json())
         );
         Promise.all(fetches)
           .then((pokemonData: PokemonDetail[]) => setPokemonData(pokemonData))

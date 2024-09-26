@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import PokemonTable from "./components/PokemonTable";
 import PokemonCard from "./components/PokemonCard";
@@ -36,10 +36,10 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  const showPokemonDetails = (pokemon: PokemonDetail): void => {
+  const showPokemonDetails = useCallback((pokemon: PokemonDetail): void => {
     setPokemon(pokemon);
     handleShow();
-  };
+  }, []);
   const handleShow = (): void => setShow(true);
   const handleClose = (): void => setShow(false);
 

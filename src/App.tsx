@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
-import type { Pokemon, PokemonDetail } from "./types";
+import type { PokemonDetail } from "./types";
 import PokemonTable from "./components/PokemonTable";
 import PokemonCard from "./components/PokemonCard";
 
@@ -18,7 +18,7 @@ type Result = {
 };
 
 function App() {
-  const [data, setData] = useState<PokemonDetail[]>([]);
+  const [pokemonData, setPokemonData] = useState<PokemonDetail[]>([]);
   const [pokemon, setPokemon] = useState<PokemonDetail>();
   const [show, setShow] = useState(false);
 
@@ -33,24 +33,8 @@ function App() {
         const fetches = data.results.map((result) =>
           fetch(result.url, options).then((response) => response.json())
         );
-
         Promise.all(fetches)
-          .then((pokemons: Pokemon[]) => {
-            const pokemonsDetailed = pokemons.map((pokemon) => {
-              const pokemonDetail: PokemonDetail = {
-                id: pokemon.id,
-                abilities: pokemon.abilities,
-                height: pokemon.height,
-                name: pokemon.name,
-                sprites: pokemon.sprites,
-                stats: pokemon.stats,
-                weight: pokemon.weight,
-              };
-
-              return pokemonDetail;
-            });
-            setData(pokemonsDetailed);
-          })
+          .then((pokemonData: PokemonDetail[]) => setPokemonData(pokemonData))
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
@@ -67,8 +51,11 @@ function App() {
     <>
       <Container style={{ margin: "20px auto", maxWidth: "768px" }}>
         <h1 style={{ textAlign: "center" }}>Pokemons</h1>
-        {data && (
-          <PokemonTable data={data} showPokemonDetails={showPokemonDetails} />
+        {pokemonData && (
+          <PokemonTable
+            data={pokemonData}
+            showPokemonDetails={showPokemonDetails}
+          />
         )}
       </Container>
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import PokemonTable from "./components/PokemonTable/PokemonTable";
 
-import type { PokemonDetail } from "./types";
+import type { Pokemon, PokemonDetail } from "./types";
 
 type PokemonAPI = {
   count: number;
@@ -27,7 +27,22 @@ function App() {
           fetch(result.url).then((response) => response.json())
         );
         Promise.all(fetches)
-          .then((pokemonData: PokemonDetail[]) => setPokemonData(pokemonData))
+          .then((pokemonSchemaData: Pokemon[]) => {
+            const pokemonData: PokemonDetail[] = pokemonSchemaData.map(
+              (pokemonSchema) => {
+                return {
+                  id: pokemonSchema.id,
+                  abilities: pokemonSchema.abilities,
+                  height: pokemonSchema.height,
+                  name: pokemonSchema.name,
+                  sprites: pokemonSchema.sprites,
+                  stats: pokemonSchema.stats,
+                  weight: pokemonSchema.weight,
+                };
+              }
+            );
+            setPokemonData(pokemonData);
+          })
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
@@ -35,9 +50,17 @@ function App() {
 
   return (
     <>
-      <Container style={{ margin: "20px auto", maxWidth: "768px" }}>
+      <Container style={{ margin: "20px auto", maxWidth: "1100px" }}>
         <h1 style={{ textAlign: "center" }}>Pokemons</h1>
-        {pokemonData && <PokemonTable data={pokemonData} />}
+        {pokemonData.length === 0 ? (
+          <div style={{ maxWidth: "fit-content", margin: "50% auto" }}>
+            <Spinner animation="grow" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : (
+          <PokemonTable data={pokemonData} />
+        )}
       </Container>
     </>
   );

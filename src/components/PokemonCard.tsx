@@ -1,4 +1,4 @@
-import { Card, ListGroup, Modal } from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
 import type { PokemonDetail } from "../types";
 
 type PokemonDetailProps = {
@@ -14,21 +14,30 @@ export default function PokemonCard({
 }: PokemonDetailProps) {
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        style={{ backgroundColor: "#3c3c3c" }}
-      >
-        <Card>
+      <Modal show={show} onHide={handleClose} centered size="sm">
+        <Card border="dark" bg="light" text="dark">
           <Card.Img variant="top" src={pokemon.sprites.back_default} />
-          <ListGroup
-            className="list-group-flush"
-            style={{ textAlign: "center" }}
-          >
-            <ListGroup.Item>ID: {pokemon.id}</ListGroup.Item>
-            <ListGroup.Item>HEIGHT: {pokemon.height}</ListGroup.Item>
-            <ListGroup.Item>WEIGHT: {pokemon.weight}</ListGroup.Item>
-          </ListGroup>
+          <Card.Body style={{ padding: "0" }}>
+            <Card.Title style={{ textAlign: "center" }}>
+              {pokemon.name.toLocaleUpperCase()}
+            </Card.Title>
+            <Card.Text>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  padding: "1.2rem",
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                  borderTop: "1px solid #333",
+                }}
+              >
+                <p>{pokemon.height}m</p>
+                <p>{pokemon.weight}kg</p>
+              </div>
+            </Card.Text>
+          </Card.Body>
         </Card>
       </Modal>
     </>

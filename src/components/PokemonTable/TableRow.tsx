@@ -9,7 +9,7 @@ type TableRowProps = {
 
 function TableRow({ pokemon, handlePokemonClick }: TableRowProps) {
   return (
-    <tr key={pokemon.id}>
+    <tr >
       <td>{pokemon.name}</td>
       <td>
         <Button onClick={() => handlePokemonClick(pokemon)}>Detalles</Button>

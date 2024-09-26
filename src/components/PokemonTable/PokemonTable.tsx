@@ -27,10 +27,12 @@ function PokemonTable({ data }: PokemonTableProps) {
 
   return (
     <>
-      <Table striped>
+      <Table striped bordered hover variant="dark" >
         <thead>
           <tr>
             <th>Name</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

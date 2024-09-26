@@ -29,3 +29,8 @@ Welcome to the Pokémon API React Project! This project is a simple web applicat
 
 - Fetch and display a list of Pokémon from the API.
 - View detailed information about each Pokémon.
+
+## Upgrades
+
+- Possibility to display more stats.
+- Add a pagination and better styles.
